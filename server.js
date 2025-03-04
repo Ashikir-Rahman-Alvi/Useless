@@ -1,19 +1,66 @@
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
 
+const PORT = 8000;
 
-const express = require("express");
-const cors = require("cors");
+const server = http.createServer((req, res) => {
+    if (req.url === '/' || req.url === '/index.html') {
+        const filePath = path.join(__dirname, 'index.html');
 
-const app = express();
-const PORT = 3000;
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                res.writeHead(500, {
+                    'Content-Type': 'text/plain'
+                });
+                res.end('Internal Server Error');
+            } else {
+                res.writeHead(200, {
+                    'Content-Type': 'text/html'
+                });
+                res.end(data);
+            }
+        });
+    } else if (req.url === '/home') {
+        const filePath = path.join(__dirname, 'home.html');
 
-app.use(cors());
-app.use(express.json());
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                res.writeHead(500, {
+                    'Content-Type': 'text/plain'
+                });
+                res.end('Internal Server Error');
+            } else {
+                res.writeHead(200, {
+                    'Content-Type': 'text/html'
+                });
+                res.end(data);
+            }
+        });
+    } else if (req.url === '/alvi') {
+        const filePath = path.join(__dirname, 'alvi.html');
 
-// Sample API Route
-app.get("/api/message", (req, res) => {
-    res.json({ message: "Hello from the backend!" });
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                res.writeHead(500, {
+                    'Content-Type': 'text/plain'
+                });
+                res.end('Internal Server Error');
+            } else {
+                res.writeHead(200, {
+                    'Content-Type': 'text/html'
+                });
+                res.end(data);
+            }
+        });
+    } else {
+        res.writeHead(404, {
+            'Content-Type': 'text/plain'
+        });
+        res.end('404 Not Found <br> 😒');
+    }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+server.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
 });
